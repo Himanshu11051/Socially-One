@@ -5,7 +5,7 @@ var appActions = {
     sharedCtrl : function(){
         angular.module('zenatixApp').controller('sharedCtrl',['$rootScope','$scope', '$state',function($rootscope, $scope, $state){
             
-            $('#configureAppModal').modal('show');
+           console.log('Welcome to Socially ONE');
         }]);
     },
 };

@@ -1,4 +1,4 @@
-/* App Controller File
+/* Login Controller File
  * @Author: Himanshu
  */ 
 var loginActions = {
@@ -6,7 +6,7 @@ var loginActions = {
         angular.module('login').controller('loginCtrl',['$rootScope','$scope', '$state',function($rootscope, $scope, $state){
             
             $scope.login = function(){
-                $state.go('home');
+                $state.go('home.dashboard');
             };
             
         }]);

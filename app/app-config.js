@@ -3,7 +3,7 @@
  */ 
 var zenatixApp = {
     bootstrap : function(){
-        angular.module('zenatixApp',['ui.router', 'ngResource', 'ngAnimate','login']);
+        angular.module('zenatixApp',['ui.router', 'ngResource', 'ngAnimate','login','dashboard']);
     },
     routerConfig : function(){
         angular.module('zenatixApp').config(['$urlRouterProvider', '$stateProvider','$provide',  function (urlRouterProvider, stateProvider,$provide) {
