@@ -3,7 +3,7 @@
  */ 
 var dashboardActions = {
     dashboardCtrl : function(){
-        angular.module('dashboard').controller('dashboardCtrl',['$rootScope','$scope', '$state','dashboardService',function($rootscope, $scope, $state,dashboardService){
+        angular.module('dashboard').controller('dashboardCtrl',['$rootScope','$scope', '$state','$window','dashboardService','constants',function($rootscope, $scope, $state, $window, dashboardService,constants){
             var authorize = dashboardService.requestToken();
             var userTimeline = dashboardService.twitterHomeTimeline();
             $scope.requestToken = {};
@@ -26,6 +26,11 @@ var dashboardActions = {
                     console.log('Rejected');
                 });
             };			
+
+            $scope.authorizeInstagram = function(){
+                $window.location.href = constants.INSTAGRAM.API_URL+'oauth/authorize/?client_id='+constants.INSTAGRAM.CLIENT_ID+'&redirect_uri='+constants.INSTAGRAM.REDIRECT_URI+'&esponse_type=token'; 
+            };
+
 
         }]);
     },
