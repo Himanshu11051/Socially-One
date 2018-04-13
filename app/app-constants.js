@@ -13,7 +13,7 @@ var appConstants = {
         INSTAGRAM : {
           API_URL: 'https://api.instagram.com/',
           CLIENT_ID: 'f59fcd8fa51541ff816834b830012d14',
-          REDIRECT_URI: 'http://127.0.0.1:5500/index.html#!/home/dashboard'
+          REDIRECT_URI: 'http://127.0.0.1:5500/',
         }
       });
     }

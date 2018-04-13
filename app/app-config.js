@@ -20,22 +20,22 @@ var zenatixApp = {
                 templateUrl: 'app/shared-component/app-container.html',
                 controller: 'sharedCtrl'
             });
-                
-            // $provide.factory('lbbAppUtil',function(){
-            //     return{
-            //         nullCheck : function(value){
-            //             if(value != null && value != undefined && value != ''){
-            //                 return true;
-            //             }
-            //             else{
-            //                 return false;
-            //             }
-            //         }
-            //     }
-
-            // });
         }]);
+    },
+    locationChange: function(){
+        angular.module('zenatixApp').run(function($rootScope,$state,$location) {
+            $rootScope.$on("$locationChangeStart", function(event, next, current) { 
+                // handle route changes 
+                console.log(current);
+                if(current.indexOf('access_token') > -1){
+                    sessionStorage.twitterAccessToken = current.split('=')[1];
+                    // event.preventDefault();
+                    $state.go('home.dashboard');
+                }    
+            });
+        });
     }
 }
 zenatixApp.bootstrap();
 zenatixApp.routerConfig();
+zenatixApp.locationChange();
