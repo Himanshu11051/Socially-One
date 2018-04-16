@@ -13,17 +13,30 @@ var dashboardActions = {
             $('#configureAppModal').modal('show');
 
             $scope.generateTwitterAuthorizationHeader = function(){
-                var oAuth = {};
-                oAuth.oauth_timestamp = Math.round(Date.now() / 1000);
-                oAuth.oauth_consumer_key = constants.TWITTER.CONSUMER_KEY;
-                oAuth.oauth_nonce = btoa(oAuth.oauth_consumer_key + ':' + oAuth.oauth_timestamp);
-                oAuth.oauth_signature_method = 'HMAC-SHA1';
-                oAuth.oauth_token = constants.TWITTER.API_ACCESS_TOKEN;
-                oAuth.oauth_version = 1.0;
-                oAuth.oauth_signature = oauthSignature.generate('GET', constants.TWITTER.API_URL+'oauth/authenticate', oAuth, constants.TWITTER.CONSUMER__SECRET, constants.TWITTER.API_ACCESS_TOKEN_SECRET,{ encodeSignature: false});
+                $scope.oAuth = {};
+                $scope.oAuth.oauth_timestamp = Math.round(Date.now() / 1000);
+                $scope.oAuth.oauth_consumer_key = constants.TWITTER.CONSUMER_KEY;
+                $scope.oAuth.oauth_nonce = btoa($scope.oAuth.oauth_consumer_key + ':' + $scope.oAuth.oauth_timestamp);
+                $scope.oAuth.oauth_signature_method = 'HMAC-SHA1';
+                $scope.oAuth.oauth_token = constants.TWITTER.API_ACCESS_TOKEN;
+                $scope.oAuth.oauth_version = 1.0;
+                $scope.oAuth.oauth_signature = oauthSignature.generate('GET', constants.TWITTER.API_URL+'search/tweets.json?q=nasa&result_type=popular', $scope.oAuth, constants.TWITTER.CONSUMER__SECRET, constants.TWITTER.API_ACCESS_TOKEN_SECRET,{encodeSignature: false});
+                $scope.oAuth.oauth_timestamp = $scope.oAuth.oauth_timestamp.toString();
+                $scope.authHeader = 'OAuth ' +
+                'oauth_consumer_key="'  + $scope.oAuth.oauth_consumer_key       + '", ' +
+                'oauth_nonce="'         + $scope.oAuth.oauth_nonce             + '", ' +
+                'oauth_signature="'     + $scope.oAuth.oauth_signature         + '", ' +
+                'oauth_signature_method="HMAC-SHA1", '              +
+                'oauth_timestamp="'     + $scope.oAuth.oauth_timestamp         + '", ' +
+                'oauth_token="'         + $scope.oAuth.oauth_token       + '", ' +
+                'oauth_version="1.0"'                               ;
+                
+                
             };
 
             $scope.getRequestToken = function(){
+                $scope.generateTwitterAuthorizationHeader();
+                var authorize = dashboardService.twitterHomeTimeline($scope.authHeader);
                 $scope.getUserTimelineRequest.count = 5;
                 userTimeline.getdata({},$scope.getUserTimelineRequest).$promise.then(function(data) {
                     if(data != undefined && data != null){

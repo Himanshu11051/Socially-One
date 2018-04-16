@@ -6,17 +6,16 @@ var dashboardResource = {
     dashboardService : function(){
         angular.module('dashboard').factory('dashboardService',['$resource','constants',function($resource,constants){
             return{
-                requestToken : function(){
+                authorizeTwitter : function(){
                     return $resource(constants.TWITTER.API_URL+'oauth/request_token',{},{setdata : {method : 'POST', headers : {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'} } })
                 },
                 authenticateTwitter : function() {
                     return $resource(constants.TWITTER.API_URL+'oauth/authenticate',{},{getdata : {method : 'GET', headers : {'Content-Type': 'application/json'} } })
                 },
-                twitterHomeTimeline : function() {
-                    return $resource(constants.TWITTER.API_URL+'1.1/statuses/home_timeline.json',{},{getdata : {method : 'GET', headers : {'Content-Type': 'application/x-www-form-urlencoded'} } })
+                twitterHomeTimeline : function(authHeader) {
+                    return $resource(constants.TWITTER.API_URL+'search/tweets.json?q=nasa&result_type=popular',{},{getdata : {method : 'GET', headers : {'Content-Type': 'application/x-www-form-urlencoded','Access-Control-Allow-Origin': '*', 'Authorization': authHeader} } })
                 },
                 getInstaFeeds : function(getInstaTimelineRequest) {
-                    // return $resource(constants.INSTAGRAM.API_URL+'v1/media/search?'+'lat='+getInstaTimelineRequest.lat+'&lng='+getInstaTimelineRequest.lng+'&access_token='+getInstaTimelineRequest.access_token+'&distance=5000',{},{getdata : {method : 'GET', headers : {'Content-Type': 'application/json'} } })
                     return $resource(constants.INSTAGRAM.API_URL+'v1/users/self/media/recent?'+'&access_token='+getInstaTimelineRequest.access_token+'&count='+getInstaTimelineRequest.count,{},{getdata : {method : 'GET', headers : {'Content-Type': 'application/json'} } })
                 }
             }
