@@ -7,8 +7,10 @@ var appConstants = {
         
         TWITTER : {
             API_URL: 'https://api.twitter.com/',
-            API_KEY: 'DW7W33Ur7eQ8GvmHXQJB3I4Or',
-            API_SECRET: 'sS0Zim7MLcYuHqKISKmaB5scbWeXVkys7479sydUQtWRWHzQtL'
+            CONSUMER_KEY: 'DW7W33Ur7eQ8GvmHXQJB3I4Or',
+            CONSUMER__SECRET: 'sS0Zim7MLcYuHqKISKmaB5scbWeXVkys7479sydUQtWRWHzQtL',
+            API_ACCESS_TOKEN: '984014203152404480-i24W4eA3aTAmbq53JndULYoj2ow18nW',
+            API_ACCESS_TOKEN_SECRET: 'DaCUcBbPaIoSIyiOTolH6xqsllTAdWLn09LJcc4ZNXhO2',
         },
         INSTAGRAM : {
           API_URL: 'https://api.instagram.com/',
