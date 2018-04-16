@@ -20,7 +20,7 @@ var dashboardActions = {
                 $scope.oAuth.oauth_signature_method = 'HMAC-SHA1';
                 $scope.oAuth.oauth_token = constants.TWITTER.API_ACCESS_TOKEN;
                 $scope.oAuth.oauth_version = 1.0;
-                $scope.oAuth.oauth_signature = oauthSignature.generate('GET', constants.TWITTER.API_URL+'search/tweets.json?q=nasa&result_type=popular', $scope.oAuth, constants.TWITTER.CONSUMER__SECRET, constants.TWITTER.API_ACCESS_TOKEN_SECRET,{encodeSignature: false});
+                $scope.oAuth.oauth_signature = oauthSignature.generate('GET', constants.TWITTER.API_URL+'1.1/search/tweets.json?q=nasa&result_type=popular', $scope.oAuth, constants.TWITTER.CONSUMER__SECRET, constants.TWITTER.API_ACCESS_TOKEN_SECRET,{encodeSignature: false});
                 $scope.oAuth.oauth_timestamp = $scope.oAuth.oauth_timestamp.toString();
                 $scope.authHeader = 'OAuth ' +
                 'oauth_consumer_key="'  + $scope.oAuth.oauth_consumer_key       + '", ' +
@@ -37,7 +37,6 @@ var dashboardActions = {
             $scope.getRequestToken = function(){
                 $scope.generateTwitterAuthorizationHeader();
                 var authorize = dashboardService.twitterHomeTimeline($scope.authHeader);
-                $scope.getUserTimelineRequest.count = 5;
                 userTimeline.getdata({},$scope.getUserTimelineRequest).$promise.then(function(data) {
                     if(data != undefined && data != null){
 							alert(JSON.stringify(data)); 
@@ -52,7 +51,7 @@ var dashboardActions = {
             };			
 
             $scope.authorizeInstagram = function(){
-                $window.location.href = constants.INSTAGRAM.API_URL+'oauth/authorize?client_id='+constants.INSTAGRAM.CLIENT_ID+'&redirect_uri='+constants.INSTAGRAM.REDIRECT_URI+'&response_type=code&scope=public_content'; 
+                $window.location.href = constants.INSTAGRAM.API_URL+'oauth/authorize?client_id='+constants.INSTAGRAM.CLIENT_ID+'&redirect_uri='+constants.INSTAGRAM.REDIRECT_URI+'&response_type=token&scope=public_content'; 
             };
 
             $scope.getInstaFeeds = function(){
