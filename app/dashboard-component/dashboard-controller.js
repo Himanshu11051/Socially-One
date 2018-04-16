@@ -3,7 +3,7 @@
  */ 
 var dashboardActions = {
     dashboardCtrl : function(){
-        angular.module('dashboard').controller('dashboardCtrl',['$rootScope','$scope', '$state','$window','dashboardService','constants',function($rootScope, $scope, $state, $window, dashboardService,constants){
+        angular.module('dashboard').controller('dashboardCtrl',['$rootScope','$scope', '$state','$window','$http','dashboardService','constants',function($rootScope, $scope, $state, $window, $http, dashboardService,constants){
             
             var userTimeline = dashboardService.twitterHomeTimeline();
             $scope.requestToken = {};
@@ -36,18 +36,34 @@ var dashboardActions = {
 
             $scope.getRequestToken = function(){
                 $scope.generateTwitterAuthorizationHeader();
-                var authorize = dashboardService.twitterHomeTimeline($scope.authHeader);
-                userTimeline.getdata({},$scope.getUserTimelineRequest).$promise.then(function(data) {
-                    if(data != undefined && data != null){
-							alert(JSON.stringify(data)); 
-                    }
-                    else{
-                        console.log('failure');
-                    }
-                },
-                function(error) {
-                    console.log('Rejected');
-                });
+                // var authorize = dashboardService.twitterHomeTimeline($scope.authHeader);
+                // userTimeline.getdata({},$scope.getUserTimelineRequest).$promise.then(function(data) {
+                //     if(data != undefined && data != null){
+				// 			alert(JSON.stringify(data)); 
+                //     }
+                //     else{
+                //         console.log('failure');
+                //     }
+                // },
+                // function(error) {
+                //     console.log('Rejected');
+                // });
+
+                var req = {
+                    method: 'GET',
+                    url: constants.TWITTER.API_URL+'1.1/statuses/home_timeline.json',
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded',
+                      'Authorization': $scope.authHeader
+                    },
+                    data: {}
+                   }
+                   $http(req).then(function(data){
+                       console.log(data)
+                   }, function(error){
+                    console.log(error)
+                   });
+
             };			
 
             $scope.authorizeInstagram = function(){
