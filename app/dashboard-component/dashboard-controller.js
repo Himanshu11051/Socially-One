@@ -20,7 +20,7 @@ var dashboardActions = {
                 $scope.oAuth.oauth_signature_method = 'HMAC-SHA1';
                 $scope.oAuth.oauth_token = constants.TWITTER.API_ACCESS_TOKEN;
                 $scope.oAuth.oauth_version = 1.0;
-                $scope.oAuth.oauth_signature = oauthSignature.generate('GET', constants.TWITTER.API_URL+'1.1/search/tweets.json?q=nasa&result_type=popular', $scope.oAuth, constants.TWITTER.CONSUMER__SECRET, constants.TWITTER.API_ACCESS_TOKEN_SECRET,{encodeSignature: false});
+                $scope.oAuth.oauth_signature = oauthSignature.generate('GET', constants.TWITTER.API_URL+'1.1/statuses/home_timeline.json', $scope.oAuth, constants.TWITTER.CONSUMER__SECRET, constants.TWITTER.API_ACCESS_TOKEN_SECRET,{encodeSignature: false});
                 $scope.oAuth.oauth_timestamp = $scope.oAuth.oauth_timestamp.toString();
                 $scope.authHeader = 'OAuth ' +
                 'oauth_consumer_key="'  + $scope.oAuth.oauth_consumer_key       + '", ' +
