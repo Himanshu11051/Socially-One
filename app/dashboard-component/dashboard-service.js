@@ -18,9 +18,6 @@ var dashboardResource = {
                 getInstaFeeds : function(getInstaTimelineRequest) {
                     return $resource(constants.INSTAGRAM.API_URL+'v1/users/self/media/recent?'+'&access_token='+getInstaTimelineRequest.access_token+'&count='+getInstaTimelineRequest.count,{},{getdata:{method : 'GET', headers:{'Content-Type' : 'application/json'}}});
                 },
-                fetchCaseList : function(){
-                    return $resource(constants.HIVR_API_ENDPOINT+'/fetchCases',{},{getdata:{method : 'POST',headers:{'Content-Type' : 'application/json','authToken': localStorage.getItem('authToken')}}});
-                },
             }
         }]);
     }	
