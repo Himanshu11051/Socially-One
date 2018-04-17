@@ -3,15 +3,26 @@
  */ 
 var dashboardActions = {
     dashboardCtrl : function(){
-        angular.module('dashboard').controller('dashboardCtrl',['$rootScope','$scope', '$state','$window','$http','dashboardService','constants',function($rootScope, $scope, $state, $window, $http, dashboardService,constants){
+        angular.module('dashboard').controller('dashboardCtrl',['$rootScope','$scope', '$state','$window','$http','$sce','dashboardService','constants',function($rootScope, $scope, $state, $window, $http, $sce, dashboardService,constants){
             
-            var userTimeline = dashboardService.twitterHomeTimeline();
+            var getTwitterFeeds = dashboardService.getTwitterFeeds();
             $scope.requestToken = {};
             $scope.getUserTimelineRequest = {};
             $scope.getInstaTimelineRequest = {};
+            $scope.currentTab = '';
             $scope.requestToken.oauth_callback = "http://127.0.0.1:5500/index.html#!/home/dashboard";
-            $('#configureAppModal').modal('show');
+            $scope.linkedProfileObj = {};
+            $scope.linkedProfileObj.twitter = false;
+            $scope.linkedProfileObj.instagram = false;
+            $scope.linkedProfileObj.twitterFeedsList = [];
+            $scope.linkedProfileObj.instagramFeedsList = [];
 
+            $scope.openConfigureAppModal = function(){
+                $('#configureAppModal').modal('show');
+            };
+            $scope.switchTab = function(tab){
+                $scope.currentTab = tab;
+            };
             $scope.generateTwitterAuthorizationHeader = function(){
                 $scope.oAuth = {};
                 $scope.oAuth.oauth_timestamp = Math.round(Date.now() / 1000);
@@ -30,50 +41,50 @@ var dashboardActions = {
                 'oauth_timestamp="'     + $scope.oAuth.oauth_timestamp         + '", ' +
                 'oauth_token="'         + $scope.oAuth.oauth_token       + '", ' +
                 'oauth_version="1.0"'                               ;
-                
-                
             };
 
             $scope.getRequestToken = function(){
                 $scope.generateTwitterAuthorizationHeader();
-                // var authorize = dashboardService.twitterHomeTimeline($scope.authHeader);
-                // userTimeline.getdata({},$scope.getUserTimelineRequest).$promise.then(function(data) {
-                //     if(data != undefined && data != null){
-				// 			alert(JSON.stringify(data)); 
-                //     }
-                //     else{
-                //         console.log('failure');
-                //     }
-                // },
-                // function(error) {
-                //     console.log('Rejected');
-                // });
-
-                var req = {
-                    method: 'GET',
-                    url: constants.TWITTER.API_URL+'1.1/statuses/home_timeline.json',
-                    headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
-                      'Access-Control-Allow-Origin': '*',
-                      'Authorization': $scope.authHeader
-                    },
-                    data: {}
-                   }
-                   $http(req).then(function(data){
-                       console.log(data)
-                   }, function(error){
-                    console.log(error)
-                   });
-
-            };			
+                var authorize = dashboardService.twitterHomeTimeline($scope.authHeader);
+                userTimeline.getdata({},$scope.getUserTimelineRequest).$promise.then(function(data) {
+                    if(data != undefined && data != null){
+							alert(JSON.stringify(data)); 
+                    }
+                    else{
+                        console.log('failure');
+                    }
+                },
+                function(error) {
+                    console.log('Rejected');
+                });
+            };	
+            
+            $scope.getTwitterFeeds = function(){
+                getTwitterFeeds.getdata({},{}).$promise.then(function(data) {
+                    if(data != undefined && data != null){
+                            // alert(JSON.stringify(data)); 
+                            $scope.linkedProfileObj.twitterFeedsList = data;
+                            $('#configureAppModal').modal('hide');
+                            $scope.linkedProfileObj.twitter = true;
+                            sessionStorage.twitterAccessToken = true;
+                    }
+                    else{
+                        console.log('failure');
+                    }
+                },
+                function(error) {
+                    console.log('Rejected');
+                });
+            };
 
             $scope.authorizeInstagram = function(){
+                $('#configureAppModal').modal('hide');
                 $window.location.href = constants.INSTAGRAM.API_URL+'oauth/authorize?client_id='+constants.INSTAGRAM.CLIENT_ID+'&redirect_uri='+constants.INSTAGRAM.REDIRECT_URI+'&response_type=token&scope=public_content'; 
             };
 
             $scope.getInstaFeeds = function(){
                 $scope.getInstaTimelineRequest.count = 5;
-                $scope.getInstaTimelineRequest.access_token = sessionStorage.twitterAccessToken;
+                $scope.getInstaTimelineRequest.access_token = sessionStorage.instagramAccessToken;
                 var getInstaTimeline = dashboardService.getInstaFeeds($scope.getInstaTimelineRequest);
                 getInstaTimeline.getdata({},$scope.getInstaTimelineRequest).$promise.then(function(data) {
                     if(data != undefined && data != null){
@@ -87,8 +98,18 @@ var dashboardActions = {
                     console.log('Rejected');
                 });
             };
+            if(sessionStorage.instagramAccessToken){
+                $scope.getInstaFeeds();
+                $scope.linkedProfileObj.instagram = true;
+                $scope.currentTab = 'I';
+            }
             if(sessionStorage.twitterAccessToken){
-                $scope.getInstaFeeds ();
+                $scope.getTwitterFeeds ();
+                $scope.linkedProfileObj.twitter = true;
+                $scope.currentTab = 'T';
+            }
+            if($scope.linkedProfileObj.instagram == false && $scope.linkedProfileObj.twitter == false){
+                $scope.openConfigureAppModal();
             }
 
         }]);

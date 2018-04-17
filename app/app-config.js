@@ -3,7 +3,7 @@
  */ 
 var zenatixApp = {
     bootstrap : function(){
-        angular.module('zenatixApp',['ui.router', 'ngResource', 'ngAnimate','login','dashboard']);
+        angular.module('zenatixApp',['ui.router', 'ngResource', 'ngAnimate','ngSanitize','login','dashboard']);
     },
     routerConfig : function(){
         angular.module('zenatixApp').config(['$urlRouterProvider', '$stateProvider','$provide',  function (urlRouterProvider, stateProvider,$provide) {
@@ -28,7 +28,7 @@ var zenatixApp = {
                 // handle route changes 
                 console.log(current);
                 if(current.indexOf('access_token') > -1){
-                    sessionStorage.twitterAccessToken = current.split('=')[1];
+                    sessionStorage.instagramAccessToken = current.split('=')[1];
                     // event.preventDefault();
                     $state.go('home.dashboard');
                 }    
