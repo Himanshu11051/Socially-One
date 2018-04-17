@@ -54,6 +54,7 @@ var dashboardActions = {
                     url: constants.TWITTER.API_URL+'1.1/statuses/home_timeline.json',
                     headers: {
                       'Content-Type': 'application/x-www-form-urlencoded',
+                      'Access-Control-Allow-Origin': '*',
                       'Authorization': $scope.authHeader
                     },
                     data: {}
