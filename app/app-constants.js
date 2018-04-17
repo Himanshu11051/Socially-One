@@ -15,7 +15,7 @@ var appConstants = {
         INSTAGRAM : {
           API_URL: 'https://api.instagram.com/',
           CLIENT_ID: 'f59fcd8fa51541ff816834b830012d14',
-          REDIRECT_URI: 'https://himanshu11051.github.io/#/home/dashboard',
+          REDIRECT_URI: 'https://himanshu11051.github.io/',
         }
       });
     }
