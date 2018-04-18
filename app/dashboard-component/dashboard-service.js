@@ -15,6 +15,9 @@ var dashboardResource = {
                 getInstaFeeds : function(getInstaTimelineRequest) {
                     return $resource(constants.INSTAGRAM.API_URL+'v1/users/self/media/recent?'+'&access_token='+getInstaTimelineRequest.access_token+'&count='+getInstaTimelineRequest.count,{},{getdata:{method : 'GET', headers:{'Content-Type' : 'application/json'}}});
                 },
+                getInstaFeedsFromJson : function() {
+                    return $resource(constants.INSTAGRAM.JSON,{},{getdata:{method : 'GET'}});
+                },
             }
         }]);
     }	

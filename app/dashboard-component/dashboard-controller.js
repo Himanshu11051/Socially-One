@@ -6,6 +6,7 @@ var dashboardActions = {
         angular.module('dashboard').controller('dashboardCtrl',['$rootScope','$scope', '$state','$window','$http','$sce','dashboardService','constants',function($rootScope, $scope, $state, $window, $http, $sce, dashboardService,constants){
             
             var getTwitterFeeds = dashboardService.getTwitterFeeds();
+            var getInstaTimelineFromJson = dashboardService.getInstaFeedsFromJson();
             $scope.requestToken = {};
             $scope.getUserTimelineRequest = {};
             $scope.getInstaTimelineRequest = {};
@@ -16,7 +17,7 @@ var dashboardActions = {
             $scope.linkedProfileObj.instagram = false;
             $scope.linkedProfileObj.twitterFeedsList = [];
             $scope.linkedProfileObj.instagramFeedsList = [];
-
+            $scope.loadingScreen = false;
             $scope.openConfigureAppModal = function(){
                 $('#configureAppModal').modal('show');
             };
@@ -60,20 +61,25 @@ var dashboardActions = {
             };	
             
             $scope.getTwitterFeeds = function(){
+                $scope.loadingScreen = true;
                 getTwitterFeeds.getdata({},{}).$promise.then(function(data) {
                     if(data != undefined && data != null){
                             // alert(JSON.stringify(data)); 
                             $scope.linkedProfileObj.twitterFeedsList = data;
                             $('#configureAppModal').modal('hide');
                             $scope.linkedProfileObj.twitter = true;
+                            $scope.currentTab = 'T';
                             sessionStorage.twitterAccessToken = true;
+                            $scope.loadingScreen = false;
                     }
                     else{
                         console.log('failure');
+                        $scope.loadingScreen = false;
                     }
                 },
                 function(error) {
                     console.log('Rejected');
+                    $scope.loadingScreen = false;
                 });
             };
 
@@ -83,19 +89,56 @@ var dashboardActions = {
             };
 
             $scope.getInstaFeeds = function(){
+                $scope.loadingScreen = true;
                 $scope.getInstaTimelineRequest.count = 5;
                 $scope.getInstaTimelineRequest.access_token = sessionStorage.instagramAccessToken;
                 var getInstaTimeline = dashboardService.getInstaFeeds($scope.getInstaTimelineRequest);
                 getInstaTimeline.getdata({},$scope.getInstaTimelineRequest).$promise.then(function(data) {
                     if(data != undefined && data != null){
-							alert(JSON.stringify(data)); 
+                            // alert(JSON.stringify(data)); 
+                            $scope.linkedProfileObj.instagramFeedsList = data.data;
+                            $scope.linkedProfileObj.instagram = true;
+                            $scope.currentTab = 'I';
+                            if(sessionStorage.length == 2){
+                                $scope.currentTab = 'T';
+                            }
+                            $scope.loadingScreen = false;
                     }
                     else{
                         console.log('failure');
+                        $scope.getInstaFeedsFromJson();
+                        $scope.loadingScreen = false;
                     }
                 },
                 function(error) {
                     console.log('Rejected');
+                    $scope.getInstaFeedsFromJson();
+                    $scope.loadingScreen = false;
+                });
+            };
+            $scope.getInstaFeedsFromJson = function(){
+                $scope.loadingScreen = true;
+                getInstaTimelineFromJson.getdata({},{}).$promise.then(function(data) {
+                    if(data != undefined && data != null){
+                            $scope.linkedProfileObj.instagramFeedsList = data.data;
+                            $scope.linkedProfileObj.instagram = true;
+                            $scope.currentTab = 'I';
+                            if(sessionStorage.instagramAccessToken == undefined || sessionStorage.instagramAccessToken == null || sessionStorage.instagramAccessToken == ''){
+                                sessionStorage.instagramAccessToken = true;
+                            }
+                            if(sessionStorage.length == 2){
+                                $scope.currentTab = 'T';
+                            }
+                            $scope.loadingScreen = false;
+                    }
+                    else{
+                        console.log('failure');
+                        $scope.loadingScreen = false;
+                    }
+                },
+                function(error) {
+                    console.log('Rejected');
+                    $scope.loadingScreen = false;
                 });
             };
             if(sessionStorage.instagramAccessToken){
@@ -111,7 +154,10 @@ var dashboardActions = {
             if($scope.linkedProfileObj.instagram == false && $scope.linkedProfileObj.twitter == false){
                 $scope.openConfigureAppModal();
             }
-
+            if(sessionStorage.length == 2){
+                $scope.currentTab = 'T';
+            }
+            
         }]);
     },
 };

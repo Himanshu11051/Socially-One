@@ -341,7 +341,7 @@ body .dashboardContainer {
 body .dashboardContainer .sidebar {
   background: #515e5f;
   top: 56px;
-  position: absolute;
+  position: fixed;
   height: calc(100% - 56px);
   padding: 15px;
 }
@@ -396,6 +396,19 @@ body .dashboardContainer .mainContainer {
   right: 0;
   margin-top: 56px;
   padding: 15px;
+  background: #f3f4f4;
+}
+
+body .dashboardContainer .mainContainer .loadingScreen {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 200px;
+  right: 0;
+  z-index: 3;
+  background-size: contain;
+  background-image: url(assets/img/skeleton.gif);
+  background-repeat: repeat-y;
 }
 
 body .dashboardContainer .mainContainer .noData {
@@ -458,6 +471,7 @@ body .dashboardContainer .mainContainer .twitterTabContainer .twitterPost .right
   word-wrap: break-word;
   white-space: pre-line;
   font-size: 14px;
+  margin-top: -20px;
 }
 
 body .dashboardContainer .mainContainer .twitterTabContainer .twitterPost .rightSection .messageText a {
@@ -475,7 +489,7 @@ body .dashboardContainer .mainContainer .twitterTabContainer .twitterPost .right
 }
 
 body .dashboardContainer .mainContainer .twitterTabContainer .twitterPost .rightSection .messageImage img {
-  width: 500px;
+  width: 100%;
 }
 
 body .dashboardContainer .mainContainer .twitterTabContainer .twitterPost .rightSection .postFooter {
@@ -489,11 +503,104 @@ body .dashboardContainer .mainContainer .twitterTabContainer .twitterPost .right
   font-weight: 700;
 }
 
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost {
+  position: relative;
+  display: block;
+  min-height: 62px;
+  margin: 0 0 20px;
+  width: 68.5%;
+  max-width: 614px;
+  min-width: 300px;
+  padding-right: 1.5%;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .leftSection {
+  position: relative;
+  float: left;
+  width: 75px;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .leftSection .avatar {
+  width: 48px;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .leftSection section:before {
+  position: absolute;
+  top: 30%;
+  right: -2px;
+  z-index: 2;
+  display: block;
+  width: 0;
+  border-top: 8px solid transparent;
+  border-right: 8px solid #fff;
+  border-bottom: 8px solid transparent;
+  content: "";
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .leftSection .userProfile img {
+  display: block;
+  width: 54px;
+  height: 54px;
+  margin-left: 0;
+  background: #fff;
+  border: none;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .rightSection {
+  padding-bottom: 8px;
+  margin-left: 75px;
+  background-color: #fff;
+  border: 1px solid #dee1e1;
+  border-radius: 5px;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .rightSection .messageText {
+  width: 100%;
+  max-height: 506px;
+  min-height: 45px;
+  padding: 10px 25px 0 10px;
+  overflow-y: auto;
+  word-wrap: break-word;
+  white-space: pre-line;
+  font-size: 14px;
+  margin-top: -20px;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .rightSection .messageText a {
+  color: #0797ae;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .rightSection .messageImage {
+  margin-top: 15px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex: 1;
+  flex: 1;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .rightSection .messageImage img {
+  width: 100%;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .rightSection .postFooter {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+body .dashboardContainer .mainContainer .instagramTabContainer .instagramPost .rightSection .postFooter a {
+  color: #0797ae;
+  font-size: 11px;
+  font-weight: 700;
+}
+
 body .logout {
   color: #fff;
   position: absolute;
   right: 20px;
   font-size: 24px;
+  line-height: 0px;
   cursor: pointer;
 }
 /*# sourceMappingURL=style.css.map */
