@@ -35,6 +35,9 @@ body {
         button {
             background: #2591d0;
         }
+        button:hover{
+            background: #5d696f;
+        }
     }
     #configureAppModal {
         transform: translateY(30%);

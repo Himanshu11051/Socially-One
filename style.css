@@ -46,6 +46,10 @@ body .form-signin button {
   background: #2591d0;
 }
 
+body .form-signin button:hover {
+  background: #5d696f;
+}
+
 body #configureAppModal {
   transform: translateY(30%);
 }
