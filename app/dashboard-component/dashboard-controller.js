@@ -18,6 +18,14 @@ var dashboardActions = {
             $scope.linkedProfileObj.twitterFeedsList = [];
             $scope.linkedProfileObj.instagramFeedsList = [];
             $scope.loadingScreen = false;
+            if (performance.navigation.type == 1) {
+                if(sessionStorage.length == 1 && sessionStorage.instagramAccessToken != undefined && sessionStorage.instagramAccessToken != null && sessionStorage.instagramAccessToken != '' ){
+                    $scope.currentTab = 'I';
+                }
+                else if(sessionStorage.length == 2 && (sessionStorage.instagramAccessToken != undefined && sessionStorage.instagramAccessToken != null && sessionStorage.instagramAccessToken != '') && sessionStorage.twitterAccessToken != undefined && sessionStorage.twitterAccessToken != null && sessionStorage.twitterAccessToken != '' ){
+                    $scope.currentTab = 'T';
+                }
+            }
             $scope.openConfigureAppModal = function(){
                 $('#configureAppModal').modal('show');
             };
@@ -71,6 +79,7 @@ var dashboardActions = {
                             $scope.currentTab = 'T';
                             sessionStorage.twitterAccessToken = true;
                             $scope.loadingScreen = false;
+                            $scope.setTabOnReload();
                     }
                     else{
                         console.log('failure');
@@ -100,8 +109,9 @@ var dashboardActions = {
                             $scope.linkedProfileObj.instagram = true;
                             $scope.currentTab = 'I';
                             if(sessionStorage.length == 2){
-                                $scope.currentTab = 'T';
+                                $scope.currentTab = 'I';
                             }
+                            $scope.setTabOnReload();
                             $scope.loadingScreen = false;
                     }
                     else{
@@ -127,7 +137,7 @@ var dashboardActions = {
                                 sessionStorage.instagramAccessToken = true;
                             }
                             if(sessionStorage.length == 2){
-                                $scope.currentTab = 'T';
+                                $scope.currentTab = 'I';
                             }
                             $scope.loadingScreen = false;
                     }
@@ -141,6 +151,17 @@ var dashboardActions = {
                     $scope.loadingScreen = false;
                 });
             };
+            $scope.setTabOnReload = function(){
+                if (performance.navigation.type == 1) {
+                    if(sessionStorage.length == 1 && sessionStorage.instagramAccessToken != undefined && sessionStorage.instagramAccessToken != null && sessionStorage.instagramAccessToken != '' ){
+                        $scope.currentTab = 'I';
+                    }
+                    else if(sessionStorage.length == 2 && (sessionStorage.instagramAccessToken != undefined && sessionStorage.instagramAccessToken != null && sessionStorage.instagramAccessToken != '') && sessionStorage.twitterAccessToken != undefined && sessionStorage.twitterAccessToken != null && sessionStorage.twitterAccessToken != '' ){
+                        $scope.currentTab = 'T';
+                    }
+                }
+            };
+            $scope.setTabOnReload();
             if(sessionStorage.instagramAccessToken){
                 $scope.getInstaFeeds();
                 $scope.linkedProfileObj.instagram = true;
